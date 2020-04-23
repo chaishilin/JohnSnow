@@ -30,7 +30,8 @@ public:
     }
     void vote(string votename)
     {
-        getReply("ZINCRBY company 1 " + votename);
+        //cout<<"vote for : "<<votename<<endl;
+        getReply("ZINCRBY GOT 1 " + votename);
         //zrange company 0 -1 withscores
     }
     string getvoteboard();

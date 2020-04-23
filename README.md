@@ -1,6 +1,6 @@
-# SilverBullet
-* cshil in charge
-* another test
+# JohnSnow
+* Author Chai Shilin
+* Vote for your favorate character in GOT!
 ## 多线程的web服务器，可以解析http请求
 * 基于半同步半反应堆模式，建立线程池，实现高并发
 * 利用string相关函数进行http请求解析和响应报文生成
@@ -50,8 +50,6 @@
     + echarts实现柱状图
 * 欢迎界面
     + 按钮生成post请求进行投票
-    ![avater](./root/test.png)
-    ![another](https://github.com/RYZCN/SilverBullet/tree/cshil/root/test.png)
 
 
 ### 压力测试

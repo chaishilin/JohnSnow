@@ -69,27 +69,30 @@ redis_clt::redis_clt()
     timeout = {2, 0};
     m_redisContext = (redisContext *)redisConnectWithTimeout("127.0.0.1", 6379, timeout);
     m_redisReply = nullptr;
+    board_exist();
 }
 string redis_clt::getvoteboard()
 {
     string board;
-    board = getReply("zrange company 0 -1 withscores");
+    board = getReply("zrange GOT 0 -1 withscores");
     return board;
 }
 void redis_clt::board_exist()
 {
     string board;
-    board = getReply("EXISTS company");
-    if(board != "1")
+    board = getReply("EXISTS GOT");
+    //cout << board << endl;
+    if (board != "1")
     {
-        //init 
+        //cout << board << endl;
         //回头在vote环节增加校验，没有再添加，而不是直接初始化这些
-        getReply("DEL company");
-        getReply("zadd company 0 Tencent");
-        getReply("zadd company 0 Baidu");
-        getReply("zadd company 0 Bytedance");
-        getReply("zadd company 0 Huawei");
-        getReply("zadd company 0 Alibaba");
+        getReply("DEL GOT");
+        getReply("zadd GOT 0 JohnSnow");
+        getReply("zadd GOT 0 JaimeLannister");
+        getReply("zadd GOT 0 NedStark");
+        getReply("zadd GOT 0 TyrionLannister");
+        getReply("zadd GOT 0 DaenerysTargaryen");
+        getReply("zadd GOT 0 AryaStark");
         cout << "init ok" << endl;
     }
     //return board;

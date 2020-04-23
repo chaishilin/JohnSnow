@@ -6,14 +6,14 @@
 
 
     <header>
-        <h1 style="text-align:center;font-size: 70px;">Login and vote for your favorate company!</h1>
-        <h1 style="text-align:center;font-size: 50px;"><a href="./help.html">Want more information?</a></h1>
+        <h1 style="text-align:center;font-size: 60px;">Login and vote for your favorate character!</h1>
+        <h1 style="text-align:center;font-size: 40px;"><a href="./help.html">Want more information?</a></h1>
     </header>
 
 
     <body>
 
-        <h1 style="text-align:center;font-size: 50px;">
+        <h1 style="text-align:center;font-size: 40px;">
             <b>please login</b>
 
             <form accept-charset='utf-8' name='myForm' method='post'>
@@ -29,13 +29,10 @@
                 <input style="text-align:center;font-size: 50px;" type='submit' value='login'>
             </form>
         </h1>
-        <h1 style="text-align:center;font-size: 50px;"><a href="./regester.html">Build new account</a></h1>
-        <!script src="../static/js/socket.io.js" />
-
-        <!script src="../static/js/jquery.min.js" />
+        <h1 style="text-align:center;font-size: 40px;"><a href="./regester.html">Build new account</a></h1>
         <br>
         <div id="votepic"
-            style="width: 600px;height:400px;background:rgb(255, 255, 255);position: relative;margin: auto;"></div>
+            style="width: 600px;height:500px;background:rgb(255, 255, 255);position: relative;margin: auto;"></div>
         <script>
             var myChart2 = echarts.init(document.getElementById('votepic'));
             var option = {
@@ -84,7 +81,7 @@
                             fontSize: 20      //更改坐标轴文字大小
                         }
                     },
-                    data: ['Tencent', 'Huawei', 'Bytedance', 'Alibaba', 'Baidu']	//
+                    data: ['John Snow', 'Jaime Lannister', 'Ned Stark', 'Tyrion Lannister', 'Daenerys Targaryen','Arya Stark']	//
                 },
 
                 series: [
@@ -109,14 +106,13 @@
                         //console.log(result);
                         var dataset = [];
                         obj = JSON.parse(result);
-                        //['Tencent', 'Huawei', 'Bytedance', 'Alibaba', 'Baidu']
-                        dataset.push(Number(obj.Tencent));
-                        dataset.push(Number(obj.Huawei));
-                        dataset.push(Number(obj.Bytedance));
-                        dataset.push(Number(obj.Alibaba));
-                        dataset.push(Number(obj.Baidu));
+                        dataset.push(Number(obj.JohnSnow));
+                        dataset.push(Number(obj.JaimeLannister));
+                        dataset.push(Number(obj.NedStark));
+                        dataset.push(Number(obj.TyrionLannister));
+                        dataset.push(Number(obj.DaenerysTargaryen));
+                        dataset.push(Number(obj.AryaStark));
                         myChart2.setOption({ series: [{ data: dataset }] });
-
                     }
                 })
             }
