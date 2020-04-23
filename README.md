@@ -1,6 +1,7 @@
 # JohnSnow
-* Author Chai Shilin
-* Vote for your favorate character in GOT!
+* 作者 Chai Shilin
+* 为《权力的游戏》中，你喜欢的角色投票！
+* 现已挂载到腾讯云，点击[JohnSnow](http://154.8.143.128:12345/)来访问并且投票！
 ## 多线程的web服务器，可以解析http请求
 * 基于半同步半反应堆模式，建立线程池，实现高并发
 * 利用string相关函数进行http请求解析和响应报文生成
