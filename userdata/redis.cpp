@@ -1,5 +1,6 @@
 #include "redis.h"
 #include <map>
+
 redis_clt *redis_clt::m_redis_instance = new redis_clt();
 
 redis_clt *redis_clt::getinstance()
@@ -9,39 +10,30 @@ redis_clt *redis_clt::getinstance()
 
 string redis_clt::getReply(string m_command)
 {
-
+    m_redis_lock.dolock();
     m_redisReply = (redisReply *)redisCommand(m_redisContext, m_command.c_str());
     //cout << m_redisReply->type << endl;
-
+    string temp = "";
     if (m_redisReply->elements == 0 && m_redisReply->type == 1)
     {
         //回复一行
         if (m_redisReply->len > 0)
         {
-            string temp = string(m_redisReply->str);
-            freeReplyObject(m_redisReply);
+            temp = string(m_redisReply->str);
             //cout << "reply:   " << temp << endl;
-            return temp;
         }
         else
-        {
-
             cout << "return nothing?" << endl;
-            freeReplyObject(m_redisReply);
-            return "";
-        }
     }
     else if (m_redisReply->type == 3)
     {
         //cout << "do code" << endl;
         int tempcode = m_redisReply->integer;
-        freeReplyObject(m_redisReply);
-        return to_string(tempcode);
+        temp = to_string(tempcode);
     }
     else
     {
         //for post
-        string temp;
         temp += "{";
         for (int i = 0; i < m_redisReply->elements; ++i)
         {
@@ -49,19 +41,16 @@ string redis_clt::getReply(string m_command)
             temp += string(m_redisReply->element[i]->str);
             temp += "\"";
             if (i % 2 == 0)
-            {
                 temp += ":";
-            }
             else
-            {
                 temp += ",";
-            }
         }
         temp.pop_back();
         temp += "}";
-        freeReplyObject(m_redisReply);
-        return temp;
     }
+    freeReplyObject(m_redisReply);
+    m_redis_lock.unlock();
+    return temp;
 }
 
 redis_clt::redis_clt()
@@ -75,7 +64,15 @@ string redis_clt::getvoteboard()
 {
     string board;
     board = getReply("zrange GOT 0 -1 withscores");
-    return board;
+    //完整性校验
+    if (board[0] == '{' && board[board.length() - 1] == '}')
+    {
+        return board;
+    }
+    else
+    {
+        return "";
+    }
 }
 void redis_clt::board_exist()
 {

@@ -17,7 +17,7 @@ extern void setnonblocking(int socketfd);
 
 const int MAX_FD = 65536;
 const int MAX_EVENT_NUMBER = 10000;
-const int MAX_WAIT_TIME = 1;
+const int MAX_WAIT_TIME = 15;
 static int pipefd[2];
 static int epollfd = 0; //全局静态变量
 static t_client_list m_timer_list;
@@ -229,6 +229,7 @@ int main(int argc, char *agrv[])
                     {
                         time_t timenow = time(NULL);
                         timer->livetime = timenow + MAX_WAIT_TIME;
+                        //cout << "adjust_timer" << endl;
                         m_timer_list.adjust_timer(timer); //调整当前timer的位置（因为很活跃）
                     }
                     else

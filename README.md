@@ -28,8 +28,9 @@
 
 ### 数据库
 * 使用redis键值对来储存用户名和密码
-* 单例模式创建redis客户端类，用于用户信息查询
 * sorted-set 记录投票
+* 单例模式创建redis客户端类，用于用户信息查询,包装了常用的查询命令，并对结果进行解析
+* 函数getReply(向redis服务端发送请求)进行了加锁保护，防止同一块区域被同时改写而导致返回结果异常
 * 需要拥有redis环境
     + 安装redis `sudo apt-get install redis-server`
     + 安装C++的hiredis库  `sudo apt-get install libhiredis-dev`

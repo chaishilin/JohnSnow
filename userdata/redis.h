@@ -4,11 +4,14 @@
 #include <hiredis/hiredis.h>
 #include <iostream>
 #include <string.h>
+#include "../lock/lock.h"
+
 using namespace std;
 
 class redis_clt
 {
 private:
+    locker m_redis_lock;
     static redis_clt *m_redis_instance;
     struct timeval timeout;
     redisContext *m_redisContext;
@@ -30,8 +33,17 @@ public:
     }
     void vote(string votename)
     {
-        //cout<<"vote for : "<<votename<<endl;
-        getReply("ZINCRBY GOT 1 " + votename);
+        //cout << "vote for : " << votename << endl;
+        if (votename.length() > 0)
+        {
+            string temp = getReply("ZINCRBY GOT 1 " + votename);
+            //cout << temp << endl;
+        }
+        else
+        {
+            //cout << "votename error didnot vote!" << endl;
+        }
+
         //zrange company 0 -1 withscores
     }
     string getvoteboard();

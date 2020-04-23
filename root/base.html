@@ -1,8 +1,8 @@
 <!doctype html>
 
 <section class="content">
-    <script src="js/echarts.min.js"></script>
-    <script src="js/jquery.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+    <script src="https://cdn.bootcss.com/echarts/3.7.1/echarts.min.js"></script>
 
 
     <header>
@@ -96,7 +96,7 @@
 
 
 
-            setInterval("getvotevalue()", 500);
+            setInterval("getvotevalue()", 100);
             function getvotevalue() {
                 $.ajax({
                     url: '/getvote',

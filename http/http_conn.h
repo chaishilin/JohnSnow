@@ -97,11 +97,13 @@ private:
     bool add_blank_line();
 */
 private:
+    locker m_redis_lock;
     int m_socket; //当前属于这个http连接的套接字
     sockaddr_in m_addr;
 
     struct stat m_file_stat;
     struct iovec m_iovec[2];
+    int m_iovec_length;
     string filename;
     string postmsg;
     char *file_addr;

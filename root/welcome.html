@@ -4,6 +4,7 @@
     function vote() {
         for (var i = 0; i < document.getElementsByName("option").length; i++) {
             if (document.getElementsByName("option")[i].checked == true) {
+                console.log(document.getElementsByName("option")[i].value);
                 $.post("/welcome.html", { 'votename': document.getElementsByName("option")[i].value }, function (data, status) { });
             }
         }

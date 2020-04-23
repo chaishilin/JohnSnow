@@ -217,12 +217,17 @@ bool http_conn::do_request()
         }
         else if (m_map["url"] == "/welcome.html") //如果来自登录后界面
         {
+            //cout << "get a vote ask:  "<<m_map["votename"] << endl;
             m_redis->vote(m_map["votename"]);
-            filename = "./root/welcome.html"; //进入初始登录界面
+            postmsg = "";
+            return false;
+            //filename = "./root/welcome.html"; //进入初始登录界面
         }
         else if (m_map["url"] == "/getvote") //如果主页要请求投票
         {
             //读取redis
+            //cout << "get read vote !" << endl;
+
             postmsg = m_redis->getvoteboard();
             //cout << postmsg << endl;
             return false;
@@ -267,29 +272,29 @@ bool http_conn::process_write(HTTP_CODE ret)
         file_addr = (char *)mmap(0, m_file_stat.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
         m_iovec[1].iov_base = file_addr;
         m_iovec[1].iov_len = m_file_stat.st_size;
+        m_iovec_length = 2;
         close(fd); //居然忘记关闭描述符了
     }
     else
     {
 
-        //postmsg
         
-        strcpy(post_temp, postmsg.c_str());
-        //cout <<postmsg.size()<<" :" << post_temp << endl;
-        m_iovec[1].iov_base = post_temp;
-        m_iovec[1].iov_len = (postmsg.size()) * sizeof(char);
-        
-        //filename
-        /*
-        int fd = open(filename.c_str(), O_RDONLY);
+        if (postmsg != "")
+        {
+            if(postmsg.length() < 20)
+                cout <<"wrong pstmsg : "<< postmsg << endl;
+            strcpy(post_temp, postmsg.c_str());
+            //cout <<postmsg.size()<<" :" << post_temp << endl;
+            m_iovec[1].iov_base = post_temp;
+            m_iovec[1].iov_len = (postmsg.size()) * sizeof(char);
+            m_iovec_length = 2;
+        }
+        else
+        {
+            //cout << "get pstmsg : " << postmsg << endl;
+            m_iovec_length = 1;
+        }
 
-        stat(filename.c_str(), &m_file_stat);
-        file_addr = (char *)mmap(0, m_file_stat.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
-        m_iovec[1].iov_base = file_addr;
-        m_iovec[1].iov_len = m_file_stat.st_size;
-        cout << file_addr << endl;
-        close(fd); //居然忘记关闭描述符了
-        */
     }
 
     return true;
@@ -337,7 +342,7 @@ bool http_conn::write() //把响应的内容写到写缓冲区中,并説明该�
     m_iovec[0].iov_base = head_temp;
     m_iovec[0].iov_len = response_head.size() * sizeof(char);
 
-    bytes_write = writev(m_socket, m_iovec, 2);
+    bytes_write = writev(m_socket, m_iovec, m_iovec_length);
 
     if (bytes_write <= 0)
     {
