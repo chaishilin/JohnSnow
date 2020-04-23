@@ -1,0 +1,125 @@
+<!doctype html>
+
+<section class="content">
+    <script src="js/echarts.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+
+
+    <header>
+        <h1 style="text-align:center;font-size: 70px;">Login and vote for your favorate company!</h1>
+        <h1 style="text-align:center;font-size: 50px;"><a href="./help.html">Want more information?</a></h1>
+    </header>
+
+
+    <body>
+
+        <h1 style="text-align:center;font-size: 50px;">
+            <b>please login</b>
+
+            <form accept-charset='utf-8' name='myForm' method='post'>
+                <br>
+                <b>username:</b>
+                <input style="text-align:center;font-size: 50px;" type='text' name='username'>
+                <br>
+                <br>
+                <b>passwd:</b>
+                <input style="text-align:center;font-size: 50px;" type='text' name='passwd'>
+                <br>
+                <br>
+                <input style="text-align:center;font-size: 50px;" type='submit' value='login'>
+            </form>
+        </h1>
+        <h1 style="text-align:center;font-size: 50px;"><a href="./regester.html">Build new account</a></h1>
+        <!script src="../static/js/socket.io.js" />
+
+        <!script src="../static/js/jquery.min.js" />
+        <br>
+        <div id="votepic"
+            style="width: 600px;height:400px;background:rgb(255, 255, 255);position: relative;margin: auto;"></div>
+        <script>
+            var myChart2 = echarts.init(document.getElementById('votepic'));
+            var option = {
+                title: {
+                    text: "Vote condition",
+                    left: 'center',
+                    textStyle: {
+                        //字体风格,'normal','italic','oblique'
+                        fontStyle: 'italic',
+                        //字体粗细 'normal','bold','bolder','lighter',100 | 200 | 300 | 400...
+                        fontWeight: 'bolder',
+                        //字体系列
+                        fontFamily: 'sans-serif',
+                        //字体大小
+                        fontSize: 38
+                    }
+                },
+
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'value',
+                    boundaryGap: [0, 0],
+                    axisLabel: {
+                        show: true,
+                        textStyle: {
+                            fontSize: 20      //更改坐标轴文字大小
+                        }
+                    }
+                },
+                yAxis: {
+                    type: 'category',
+                    axisLabel: {
+                        show: true,
+                        textStyle: {
+                            fontSize: 20      //更改坐标轴文字大小
+                        }
+                    },
+                    data: ['Tencent', 'Huawei', 'Bytedance', 'Alibaba', 'Baidu']	//
+                },
+
+                series: [
+                    {
+                        barWidth: 30,		//设置柱子宽度
+                        type: 'bar',
+                        data: [20, 20, 20, 20, 20]
+                    }
+                ]
+            };
+            myChart2.setOption(option);
+
+
+
+            setInterval("getvotevalue()", 500);
+            function getvotevalue() {
+                $.ajax({
+                    url: '/getvote',
+                    async: true,
+                    type: 'post',
+                    success: function (result) {
+                        //console.log(result);
+                        var dataset = [];
+                        obj = JSON.parse(result);
+                        //['Tencent', 'Huawei', 'Bytedance', 'Alibaba', 'Baidu']
+                        dataset.push(Number(obj.Tencent));
+                        dataset.push(Number(obj.Huawei));
+                        dataset.push(Number(obj.Bytedance));
+                        dataset.push(Number(obj.Alibaba));
+                        dataset.push(Number(obj.Baidu));
+                        myChart2.setOption({ series: [{ data: dataset }] });
+
+                    }
+                })
+            }
+        </script>
+    </body>
+</section>

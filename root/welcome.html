@@ -1,0 +1,38 @@
+<html>
+<script src="js/jquery.min.js"></script>
+<script>
+    function vote() {
+        for (var i = 0; i < document.getElementsByName("option").length; i++) {
+            if (document.getElementsByName("option")[i].checked == true) {
+                $.post("/welcome.html", { 'votename': document.getElementsByName("option")[i].value }, function (data, status) { });
+            }
+        }
+    }
+</script>
+
+
+<div style="text-align:center;font-size: 60px;">
+    <b>Vote for your favorate company!</b>
+    <br>
+</div>
+
+<body>
+    <div style="text-align:center;font-size: 40px;">
+        <b><input type="radio" name="option" checked="checked" value="Tencent" />Tencent</b><br>
+        <b><input type="radio" name="option" value="Huawei" />Huawei</b><br>
+        <b><input type="radio" name="option" value="Bytedance" />Bytedance</b><br>
+        <b><input type="radio" name="option" value="Alibaba" />Alibaba</b><br>
+        <b><input type="radio" name="option" value="Baidu" />Baidu</b><br>
+        <button type="button" onclick="vote()" style="text-align:center;font-size: 40px;">vote</button>
+        <br>
+    </div>
+
+    <b>
+        <br>
+        <div align="center"><img src="./1.jpg" title="A very good fig" height="500" width="500" /></div>
+        <h1 style="text-align:center;font-size: 50px;"><a href="./base.html">back</a></h1>
+
+    </b>
+</body>
+
+</html>
