@@ -74,4 +74,8 @@
     :-:|:-:|:-:|:-:|:-:
     100| i7 8th| 16G|10904512 | 15485
 
-  
+### 致谢
+* [我模仿的服务端项目 TinyWebServer](https://github.com/qinguoyi/TinyWebServer)
+* Linux高性能服务器编程，游双著.
+
+
